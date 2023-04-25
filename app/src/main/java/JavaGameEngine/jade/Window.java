@@ -3,6 +3,8 @@ package JavaGameEngine.jade;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.glfw.Callbacks;
+
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
@@ -35,6 +37,14 @@ public class Window {
     System.out.println("Hello LWJGL " + Version.getVersion() + "!");
     init();
     loop();
+
+    //Free memory
+    Callbacks.glfwFreeCallbacks(glfwWindow);
+    glfwDestroyWindow(glfwWindow);
+
+    //Terminate GLFW and free the error callback
+    glfwTerminate();
+    glfwSetErrorCallback(null).free();
   }
 
   public void init() {
@@ -66,7 +76,7 @@ public class Window {
 
     // Make the window visible
     glfwShowWindow(glfwWindow);
-    //critical for LWJGL's interopartion with GLFW
+    //critical for LWJGL's interoperation with GLFW OPENGL
     GL.createCapabilities();
   }
   
